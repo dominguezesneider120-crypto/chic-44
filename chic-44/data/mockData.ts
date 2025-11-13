@@ -11,9 +11,9 @@ export const mockProducts: Product[] = [
     colors: ['Negro', 'Café', 'Rojo'],
     sizes: ['Pequeño', 'Mediano', 'Grande'],
     images: [
-      'https://picsum.photos/seed/product1/800/800',
-      'https://picsum.photos/seed/product1-2/800/800',
-      'https://picsum.photos/seed/product1-3/800/800',
+      'https://res.cloudinary.com/dt1rhz43z/image/upload/v1762976063/2_sjgw7w.png',
+      'https://res.cloudinary.com/dt1rhz43z/image/upload/v1762976063/6_crgzlk.png',
+      'https://res.cloudinary.com/dt1rhz43z/image/upload/v1762976062/4_rnqwrm.png',
     ],
     category: 'Bolsos',
     stock: 10,
