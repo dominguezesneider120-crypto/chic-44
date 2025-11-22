@@ -10,13 +10,13 @@ interface CartPageProps {
 
 const CartItemRow: React.FC<{ item: CartItem }> = ({ item }) => {
     const { updateQuantity, removeFromCart } = useCart();
-    const { t } = useTranslation();
+    const { t, formatPrice } = useTranslation();
 
     return (
         <div className="flex items-center py-4 border-b">
-            <img src={item.images[0]} alt={item.name} className="w-24 h-24 object-cover rounded-md mr-4" />
+            <img src={item.images[0]} alt={t(item.nameKey)} className="w-24 h-24 object-cover rounded-md mr-4" />
             <div className="flex-grow">
-                <h3 className="font-semibold">{item.name}</h3>
+                <h3 className="font-semibold">{t(item.nameKey)}</h3>
                 <p className="text-sm text-gray-500">{t('cart_item_color')}: {item.selectedColor}</p>
                 <p className="text-sm text-gray-500">
                     {item.category === 'Bolsos' ? t('cart_item_size_bags') : t('cart_item_size_clothes')}: {item.selectedSize}
@@ -27,11 +27,11 @@ const CartItemRow: React.FC<{ item: CartItem }> = ({ item }) => {
                 <span className="px-3 py-1 text-md w-10 text-center">{item.quantity}</span>
                 <button onClick={() => updateQuantity(item.id, item.selectedSize, item.selectedColor, item.quantity + 1)} className="px-3 py-1 text-lg">+</button>
             </div>
-            <p className="w-24 text-right font-semibold mx-4">${(item.price * item.quantity).toFixed(2)}</p>
+            <p className="w-24 text-right font-semibold mx-4">{formatPrice(item.price * item.quantity)}</p>
             <button 
                 onClick={() => removeFromCart(item.id, item.selectedSize, item.selectedColor)}
                 className="text-gray-500 hover:text-red-600"
-                aria-label={t('cart_remove_item_aria').replace('{name}', item.name)}
+                aria-label={t('cart_remove_item_aria').replace('{name}', t(item.nameKey))}
             >
                 <Icon type="trash" className="h-5 w-5" />
             </button>
@@ -42,7 +42,7 @@ const CartItemRow: React.FC<{ item: CartItem }> = ({ item }) => {
 
 export const CartPage: React.FC<CartPageProps> = ({ onNavigate }) => {
   const { cart, cartCount, clearCart } = useCart();
-  const { t } = useTranslation();
+  const { t, formatPrice } = useTranslation();
 
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -75,7 +75,7 @@ export const CartPage: React.FC<CartPageProps> = ({ onNavigate }) => {
                 <h2 className="text-xl font-bold mb-4">{t('cart_summary_title')}</h2>
                 <div className="flex justify-between mb-2 text-gray-600">
                     <span>{t('cart_summary_subtotal')}</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span>{formatPrice(subtotal)}</span>
                 </div>
                  <div className="flex justify-between mb-4 text-gray-600">
                     <span>{t('cart_summary_shipping')}</span>
@@ -83,7 +83,7 @@ export const CartPage: React.FC<CartPageProps> = ({ onNavigate }) => {
                 </div>
                 <div className="border-t pt-4 flex justify-between font-bold text-lg">
                     <span>{t('cart_summary_total')}</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span>{formatPrice(subtotal)}</span>
                 </div>
                 <button 
                   onClick={() => onNavigate('checkout')}
